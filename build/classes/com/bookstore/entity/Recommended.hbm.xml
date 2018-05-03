@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping package="com.bookstore.entity">
+	
+    <class name="Recommended" table="recommended">
+        <id name="id" column="id">
+            <generator class="native"></generator>
+        </id>
+         <property name="book_name" column="book_name"></property>
+         <property name="book_author" column="book_author"></property>
+         <property name="category" column="category"></property>
+         <property name="book_picture" column="book_picture"></property>
+         <property name="price" column="price"></property>
+         <property name="description" column="description"></property>
+         <property name="inventory" column="inventory"></property>
+         <!-- 多对一 -->
+         <many-to-one name="user" column="by_id" class="User"></many-to-one>
+         <many-to-one name="book" column="book_id" class="Book"></many-to-one>
+    </class>
+    
+</hibernate-mapping>    	

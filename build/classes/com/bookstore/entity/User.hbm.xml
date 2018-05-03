@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+    <hibernate-mapping package="com.bookstore.entity">
+        <class name="User" table="user">
+            <id name="id" column="id">
+                <generator class="native"></generator>
+            </id>
+           <property name="username" column="username"></property>
+           <property name="password" column="password"></property>
+           <property name="realname" column="realname"></property>
+           <property name="gender" column="gender"></property>
+           <property name="nickname" column="nickname"></property>
+           <property name="email" column="email"></property>
+           <property name="telphone" column="telphone"> </property>
+           <property name="sign" column="sign"></property>
+           <property name="permission" column="permission"></property>
+           <property name="picture" column="picture"></property>
+           <property name="address" column="address"></property>
+           <property name="integral" column="integral"></property>
+           
+           <!-- 一对多：book -->
+           <set name="books" table="book" cascade="all-delete-orphan" inverse="false">
+               <key column="user_id"> </key>
+               <one-to-many class="Book"></one-to-many>
+           </set>
+           
+           <!-- 一对多：Order_items -->
+           <set name="order_items" table="order_items" cascade="all-delete-orphan" inverse="false">
+               <key column="buy_id"></key>
+               <one-to-many class="Order_items"></one-to-many>
+           </set>
+           
+           <!-- 一对多：evaluation -->
+           <set name="evaluations" table="evaluation" cascade="all-delete-orphan" inverse="false">
+               <key column="user_id"></key>
+               <one-to-many class="Evaluation"></one-to-many>
+           </set>
+           <!-- 一对多：recommended -->
+           <set name="recommendeds" table="recommended" cascade="all-delete-orphan" inverse="false">
+               <key column="by_id"></key>
+               <one-to-many class="Recommended"></one-to-many>
+           </set>
+        </class>
+        
+    </hibernate-mapping>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+ <!DOCTYPE struts PUBLIC 
+ 	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+ 	"http://struts.apache.org/dtds/struts-2.3.dtd">
+    <struts> 
+	    <include file="struts_default.xml"/> <!-- struts2默认的核心配置文件 --> 
+	   	<constant name="struts.objectFactory" value="spring"></constant>
+	   	<constant name="struts.devMode" value="true" />
+	  	<constant name="struts.action.extension" value="html"></constant>
+	  	<constant name="struts.multipart.saveDir " value="d:/tmp" />
+	  	
+	   <!-- 登陆 -->
+	  	<package name="login" extends="struts-default" >
+	  	    <action name="login" class="com.bookstore.action.LoginAction">
+	  	        <result name="success">/index.jsp</result>
+	  	        <result name="input">/login.jsp</result>
+	  	    </action>
+	  	    <action name="loginOut" class="com.bookstore.action.LoginOutAction">
+	  	        <result name="success">/index.jsp</result>
+	  	    </action>
+	  	</package>
+	  	<!-- 注册 -->
+	   	<package name="register"  extends="struts-default" >
+	   		<action name="registerAction" class="com.bookstore.action.RegisterAction" >
+	   		    <result name="success" type="dispatcher">/login.jsp</result>
+	   		    <result name="input" >/register.jsp</result>
+	   		</action>
+	   		<!-- 查看个人信息 -->
+	   		<action name="myInfo" class="com.bookstore.action.MyInfoAction">
+	   		    <result name="success">/MyInfo.jsp</result>
+	   		    <result name="input">/login.jsp</result>
+	   		</action>
+	   		<!-- 修改个人信息 -->
+	   		<action name="modify" class="com.bookstore.action.ModifyAction">
+	   		    <result name="success">/index.jsp</result>
+	   		    <result name="input">/MyInfo.jsp</result>
+	   		</action>
+	   	</package>
+	   	<!-- 上传头像 -->
+	   	<package name="up" extends="struts-default" >
+	   	    <action name="upload" class="com.bookstore.action.UploadAction" >
+	   	        <interceptor-ref name="fileUpload">
+			    <!-- 配置允许上传的文件类型，多个用","分隔
+			    <param name="allowedTypes">
+			     application/msword,text/plain,text/richtext
+			    </param> -->
+			    <!-- 配置允许上传的文件大小，单位字节 -->
+			    <param name="maximumSize">1024000</param>
+			    </interceptor-ref>
+			    <interceptor-ref name="defaultStack" />
+			    <param name="savePath">\img_user</param>
+	   	        <result>/register.jsp</result>
+	   	    </action>
+	   	</package>
+	   	
+	   	<!-- 书籍操作 -->
+	   	<package name="book" extends="struts-default">
+	   	    <!-- 发布新书 -->
+	   	    <action name="publish" class="com.bookstore.action.BookPublishAction">
+	   	        <result name="success">/publish_success.jsp</result>
+	   	        <result name="input">/login.jsp</result>
+	   	    </action>
+	   	    <!-- 上传书籍封面 -->
+	   	    <action name="book_upload" class="com.bookstore.action.UploadAction">
+	   	        <interceptor-ref name="fileUpload">
+	   	            <param name="maximumSize">102400</param>
+	   	        </interceptor-ref>
+			    <interceptor-ref name="defaultStack" />
+			    <param name="savePath">\img_book</param>
+			    <result name="success">/book_publish.jsp</result>
+			    <result name="input">/book_publish.jsp </result>
+	   	    </action>
+	   	    <!-- 根据类别查看商品 -->
+	   	    <action name="show" class="com.bookstore.action.BookShowAction">
+	   	        <result>/product.jsp</result>
+	   	    </action>
+	   	    <!-- 根据search查商品 -->
+	   	    <action name="search" class="com.bookstore.action.SearchAction">
+	   	        <result>/product.jsp</result>
+	   	    </action>
+	   	    <!-- 加入购物车 -->
+	   	    <action name="cart" class="com.bookstore.action.CartAction">
+	   	       <result name="success">/cart.jsp</result>
+	   	       <result name="input">/login.jsp</result>
+	   	    </action>
+			<!-- 查看购物车 -->
+			<action name="showCart" class="com.bookstore.action.CartShowAction">
+			    <result name="success">/cart.jsp</result>
+			    <result name="input">/login.jsp</result>
+			</action>
+			
+	   	</package>
+	   	<!-- 订单操作 -->
+	   	<package name="order" extends="struts-default">
+	   	    <action name="deleteOrder" class="com.bookstore.action.DeleteOrderAction">
+	   	        <result name="success">/cart.jsp</result>
+	   	    </action>
+	   	</package>
+	   	
+	   	<!-- 图书推荐 -->
+	   	<package name="recommended" extends="struts-default">
+	   	    <!-- 加入 -->
+	   	    <action name="recommended" class="com.bookstore.action.RecommendedAction">
+	   	        <result name="success">/recommended_success.jsp</result>
+	   	        <result name="input">/login.jsp</result>
+	   	        <result name="error">/index.jsp</result>
+	   	    </action>
+	   	    <!-- 显示 -->
+	   	    <action name="recomShow" class="com.bookstore.action.RecommendedShowAction">
+	   	        <result name="success">/recom.jsp</result>
+	   	    </action>
+	   	    <!-- 书籍信息显示包括书籍评价 -->
+	   	    <action name="showInfo" class="com.bookstore.action.BookShowInfoAction">
+	   	        <result name="success">/product_info.jsp</result>
+	   	    </action>
+	   	    <!-- 显示图书推荐的信息 -->
+	   	    <action name="recommendedShow" class="com.bookstore.action.RecommendedShowInfoAction">
+	   	        <result name="success">/product_info.jsp</result>
+	   	    </action>
+	   	</package>
+	   	
+	   	<!-- 管理员 -->
+	   	<package name="admin" extends="struts-default">
+	   	    <action name="adminReport" class="com.bookstore.action.AdminReportAction">
+	   	        <result name="success">/admin.jsp</result>
+	   	        <result name="input">/index.jsp</result>
+	   	    </action>
+	   	    <action name="audit" class="com.bookstore.action.AuditAction">
+	   	        <result name="success">/admin.jsp</result>
+	   	    </action>
+	 
+	   	</package>
+	   	
+	   	<!-- 书籍评价系统 -->
+	   	<package name="evaluation" extends="struts-default">
+	   	    <!-- 用户评论 -->
+	   	    <action name="addevaluation" class="com.bookstore.action.EvaluationAction">
+	   	        <result name="success">/product_info.jsp</result>
+	   	        <result name="input">/login.jsp</result>
+	   	    </action>
+	   	    <!-- 用户点赞 -->
+	   	    <action name="like" class="com.bookstore.action.LikeAction">
+	   	        <result name="success">/product_info.jsp</result>
+	   	        <result name="input">/login.jsp</result>
+	   	    </action>
+	   	    <!-- 用户踩 -->
+	   	    <action name="hate" class="com.bookstore.action.HateAction">
+	   	        <result name="success">/product_info.jsp</result>
+	   	        <result name="input">/login.jsp</result>
+	   	    </action>
+	   	    <!-- 举报评论 -->
+	   	    <action name="report" class="com.bookstore.action.ReportAction">
+	   	        <result name="success">/product_info.jsp</result>
+	   	        <result name="input">/login.jsp</result>
+	   	    </action>
+	   	</package>
+    </struts>  
